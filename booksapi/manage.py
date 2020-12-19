@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import csv
 
 
 def main():
@@ -17,13 +18,20 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+    from books import models
+    path = "/Users/luke/PycharmProjects/Projects/micropythonapi/bestsellers-with-categories.csv"
     with open(path) as f:
         reader = csv.reader(f)
+        next(reader)
         for row in reader:
-            _, created = Teacher.objects.get_or_create(
-                first_name=row[0],
-                last_name=row[1],
-                middle_name=row[2],
+            _, created = models.Book.objects.get_or_create(
+                name = row[0],
+                author = row[1],
+                rating = row[2],
+                reviews = row[3],
+                price = row[4],
+                year = row[5],
+                genre = row[6],
             )
 
 if __name__ == '__main__':
